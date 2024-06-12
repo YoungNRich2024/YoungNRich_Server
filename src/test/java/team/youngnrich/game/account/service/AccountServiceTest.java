@@ -30,6 +30,7 @@ class AccountServiceTest {
         softly.assertThat(responseDto.getProfileImageUrl()).isNotNull();
         softly.assertThat(responseDto.getAccessToken()).isNotNull();
         softly.assertThat(responseDto.getRefreshToken()).isNotNull();
+        softly.assertAll();
     }
 
     @Test
