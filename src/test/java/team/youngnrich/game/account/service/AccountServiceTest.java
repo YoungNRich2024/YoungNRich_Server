@@ -36,7 +36,7 @@ class AccountServiceTest {
     void signup_테스트_오류확인_클라이언트가_잘못된_인가코드를_전달한_경우() {
         // given
         String WRONG_AUTHORIZATION_CODE = "abcd";
-        SignupRequestDto REQUEST_DTO = SignupRequestDto.bulider()
+        SignupRequestDto REQUEST_DTO = SignupRequestDto.builder()
                 .code(WRONG_AUTHORIZATION_CODE)
                 .build();
         AccountService accountService = new AccountService();
