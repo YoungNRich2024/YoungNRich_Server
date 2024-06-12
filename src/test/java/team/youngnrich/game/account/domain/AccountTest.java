@@ -3,10 +3,16 @@ package team.youngnrich.game.account.domain;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
+@TestPropertySource(properties = {
+        "spring.config.location = src/main/resources/application.yml"
+})
 class AccountTest {
     @Value("${numbers.account.nickname-max}")
     private Long NICKNAME_MAX_LENGTH;
