@@ -15,7 +15,7 @@ public class SignupResponseDto {
 
     @Builder
     public SignupResponseDto (Account account, String accessToken, String refreshToken) {
-        this.id = account.getId();
+        this.id = account.getAccountId();
         this.kakaoId = account.getKakaoId();
         this.nickname = account.getNickname();
         this.profileImageUrl = account.getProfileImageUrl();
