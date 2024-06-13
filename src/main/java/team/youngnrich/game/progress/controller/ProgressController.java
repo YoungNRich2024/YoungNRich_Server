@@ -22,24 +22,9 @@ public class ProgressController {
         return progressService.getMyProgress(authentication);
     }
 
-    @PostMapping("/pone")
-    public ResponseEntity<String> puzzleOne (Authentication authentication) {
-        return progressService.puzzleOne(authentication);
-    }
-
-    @PostMapping("/ptwo")
-    public ResponseEntity<String> puzzleTwo (Authentication authentication) {
-        return progressService.puzzleTwo(authentication);
-    }
-
-    @PostMapping("/pthree")
-    public ResponseEntity<String> puzzleThree (Authentication authentication) {
-        return progressService.puzzleThree(authentication);
-    }
-
-    @PostMapping("/pfour")
-    public ResponseEntity<String> puzzleFour (Authentication authentication) {
-        return progressService.puzzleFour(authentication);
+    @PostMapping("/puzzle")
+    public ResponseEntity<String> puzzleSolved (Authentication authentication, PuzzleSovedRequestDto requestDto) {
+        return progressService.puzzleSolved(authentication, requestDto);
     }
 
     @PostMapping("/keyget")
