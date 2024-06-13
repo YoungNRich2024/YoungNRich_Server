@@ -34,7 +34,6 @@ public class Account {
 
     @Builder
     public Account(String kakaoId, String nickname, String profileImageUrl) {
-        validateKakaoId(kakaoId);
         validateNickname(nickname);
         this.kakaoId = kakaoId;
         this.nickname = nickname;
@@ -50,17 +49,9 @@ public class Account {
         this.profileImageUrl = newUrl;
     }
 
-    private void validateKakaoId(String kakaoId) {
-        try{
-            Integer.parseInt(kakaoId);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("[ERROR] 카카오회원 ID가 정수가 아닙니다!");
-        }
-    }
-
     private void validateNickname(String nickname) {
         if(nickname.length()> NICKNAME_MAX_LENGTH)
-            throw new IllegalArgumentException("[ERROR] 닉네임이 너무 깁니다!");
+            throw new IllegalArgumentException("[ERROR] 닉네임이 너무 깁니다!: " + nickname);
     }
 
     @Component

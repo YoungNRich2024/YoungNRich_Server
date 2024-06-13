@@ -38,17 +38,6 @@ class AccountTest {
     }
 
     @Test
-    void 새회원생성_실패테스트_카카오ID가_정수가_아님() {
-        // given
-        String KAKAO_ID = "abcd";
-        String NICKNAME = "nickname";
-        String PROFILE_IMAGE_URL = "example.com";
-        // when, then
-        assertThrows(IllegalArgumentException.class,
-                () -> Account.builder().kakaoId(KAKAO_ID).nickname(NICKNAME).profileImageUrl(PROFILE_IMAGE_URL).build());
-    }
-
-    @Test
     void 새회원생성_실패테스트_닉네임_글자수_초과() {
         // given
         String KAKAO_ID = "12345678";
