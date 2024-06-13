@@ -48,6 +48,7 @@ class AccountServiceTest {
         softly.assertThat(responseDto.getAccessToken()).isNotNull();
         softly.assertThat(responseDto.getRefreshToken()).isNotNull();
         softly.assertAll();
+        sc.close();
     }
 
     @Test
