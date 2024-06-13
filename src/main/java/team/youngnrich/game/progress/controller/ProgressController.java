@@ -23,7 +23,7 @@ public class ProgressController {
     }
 
     @PostMapping("/puzzle")
-    public ResponseEntity<String> puzzleSolved (Authentication authentication, PuzzleSovedRequestDto requestDto) {
+    public ResponseEntity<String> puzzleSolved (Authentication authentication, PuzzleSolvedRequestDto requestDto) {
         return progressService.puzzleSolved(authentication, requestDto);
     }
 
@@ -39,7 +39,7 @@ public class ProgressController {
 
     @PostMapping("/test")
     public ResponseEntity<String> test (Authentication authentication, @RequestBody TestRequestDto requestDto) {
-        return progressService.getKey(authentication, requestDto);
+        return progressService.test(authentication, requestDto);
     }
 
     @PostMapping("/new")
