@@ -6,7 +6,7 @@ import team.youngnrich.game.account.domain.Account;
 
 @Getter
 public class SignupResponseDto {
-    private Long id;
+    private Long accountId;
     private String kakaoId;
     private String nickname;
     private String profileImageUrl;
@@ -15,7 +15,7 @@ public class SignupResponseDto {
 
     @Builder
     public SignupResponseDto (Account account, String accessToken, String refreshToken) {
-        this.id = account.getAccountId();
+        this.accountId = account.getAccountId();
         this.kakaoId = account.getKakaoId();
         this.nickname = account.getNickname();
         this.profileImageUrl = account.getProfileImageUrl();

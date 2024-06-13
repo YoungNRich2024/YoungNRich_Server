@@ -29,7 +29,7 @@ public class KakaoLoginService {
     public static class KakaoLoginServicePropertyInitializer {
         @Autowired
         public KakaoLoginServicePropertyInitializer (Environment environment) {
-            API_KEY = environment.getProperty("kakao.api_key");
+            API_KEY = environment.getProperty("kakao.api-key");
             REDIRECT_URI = environment.getProperty("kakao.redirect-uri");
         }
     }
@@ -64,6 +64,7 @@ public class KakaoLoginService {
         try {
             response = restTemplate.postForObject(REQUEST_URL_FOR_ACCESSTOKEN, request, String.class);
         } catch (HttpClientErrorException e) {
+            System.out.println(e.getMessage());
             throw new IllegalArgumentException("[ERROR] 카카오 Access Token 받아오기 실패!");
         }
         if (response == null || response.contains("error")) throw new IllegalArgumentException("[ERROR] 카카오 Access Token 받아오기 실패!");
