@@ -1,6 +1,5 @@
 package team.youngnrich.game.oauth.service;
 
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -17,7 +16,6 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import team.youngnrich.game.oauth.dto.KakaoUserInfoResponseDto;
 
-
 @Service
 public class KakaoLoginService {
     private RestTemplate restTemplate = new RestTemplate();
@@ -29,7 +27,6 @@ public class KakaoLoginService {
 
     @Component
     public static class KakaoLoginServicePropertyInitializer {
-
         @Autowired
         public KakaoLoginServicePropertyInitializer (Environment environment) {
             API_KEY = environment.getProperty("kakao.api_key");
