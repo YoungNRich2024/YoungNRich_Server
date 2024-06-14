@@ -4,7 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import team.youngnrich.game.progress.dto.request.SaveRequestDto;
+import team.youngnrich.game.progress.dto.request.TestRequestDto;
+import team.youngnrich.game.progress.dto.response.ProgressResponseDto;
 import team.youngnrich.game.progress.service.ProgressService;
+import team.youngnrich.game.progress.dto.request.PuzzleSolvedRequestDto;
+import team.youngnrich.game.progress.dto.response.ProgressExistResponseDto;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,31 +29,31 @@ public class ProgressController {
 
     @PostMapping("/puzzle")
     public ResponseEntity<String> puzzleSolved (Authentication authentication, PuzzleSolvedRequestDto requestDto) {
-        return progressService.puzzleSolved(authentication.getName(), requestDto);
+        return ResponseEntity.ok().body(progressService.puzzleSolved(authentication.getName(), requestDto));
     }
 
     @PostMapping("/keyget")
     public ResponseEntity<String> getKey (Authentication authentication) {
-        return progressService.getKey(authentication.getName());
+        return ResponseEntity.ok().body(progressService.getKey(authentication.getName()));
     }
 
     @PostMapping("/keyuse")
     public ResponseEntity<String> useKey (Authentication authentication) {
-        return progressService.useKey(authentication.getName());
+        return ResponseEntity.ok().body(progressService.useKey(authentication.getName()));
     }
 
     @PostMapping("/test")
     public ResponseEntity<String> test (Authentication authentication, @RequestBody TestRequestDto requestDto) {
-        return progressService.test(authentication.getName(), requestDto);
+        return ResponseEntity.ok().body(progressService.test(authentication.getName(), requestDto));
     }
 
     @PostMapping("/new")
     public ResponseEntity<String> newGame (Authentication authentication) {
-        return progressService.newGame(authentication.getName());
+        return ResponseEntity.ok().body(progressService.newGame(authentication.getName()));
     }
 
     @PostMapping("/save")
     public ResponseEntity<String> save (Authentication authentication, SaveRequestDto requestDto) {
-        return progressService.save(authentication.getName(), requestDto);
+        return ResponseEntity.ok().body(progressService.save(authentication.getName(), requestDto));
     }
 }

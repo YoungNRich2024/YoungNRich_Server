@@ -1,8 +1,7 @@
 package team.youngnrich.game.progress.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import team.youngnrich.game.account.domain.Account;
@@ -12,6 +11,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Progress {
     @Id
@@ -20,28 +20,28 @@ public class Progress {
     private Long progressId;
 
     @Column(nullable = false)
-    private Boolean puzzleOne;
+    private boolean puzzleOne;
 
     @Column(nullable = false)
-    private Boolean puzzleTwo;
+    private boolean puzzleTwo;
 
     @Column(nullable = false)
-    private Boolean puzzleThree;
+    private boolean puzzleThree;
 
     @Column(nullable = false)
-    private Boolean puzzleFour;
+    private boolean puzzleFour;
 
     @Column(nullable = false)
-    private Boolean testComplete;
+    private boolean testComplete;
 
     @Column(nullable = false)
     private Long seconds;
 
     @Column(nullable = false)
-    private Boolean keyObtained;
+    private boolean keyObtained;
 
     @Column(nullable = false)
-    private Boolean keyUsed;
+    private boolean keyUsed;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false, updatable = false)
@@ -51,4 +51,25 @@ public class Progress {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="behavior_id")
     Behavior behavior;
+
+    @Builder
+    public Progress (Account owner) {
+        this.account = owner;
+        this.puzzleOne = false;
+        this.puzzleTwo = false;
+        this.puzzleThree = false;
+        this.puzzleFour = false;
+        this.testComplete = false;
+        this.seconds = 0L;
+        this.keyObtained = false;
+        this.keyUsed = false;
+    }
+
+    public Progress init () {
+        Progress newProgress = Progress.builder()
+                .owner(this.account)
+                .build();
+        newProgress.setProgressId(this.progressId);
+        return newProgress;
+    }
 }
