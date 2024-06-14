@@ -7,8 +7,12 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+import team.youngnrich.game.completed.domain.Completed;
+import team.youngnrich.game.progress.domain.Progress;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,6 +35,12 @@ public class Account {
 
     @Column(nullable = false)
     private String profileImageUrl;
+
+    @OneToOne(mappedBy = "account_id")
+    Progress progress;
+
+    @OneToMany(mappedBy = "account_id")
+    List<Completed> completedList = new ArrayList<>();
 
     @Builder
     public Account(String kakaoId, String nickname, String profileImageUrl) {
