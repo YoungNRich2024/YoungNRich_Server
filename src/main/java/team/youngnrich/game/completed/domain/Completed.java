@@ -1,6 +1,7 @@
 package team.youngnrich.game.completed.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
@@ -37,4 +38,13 @@ public class Completed {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="behavior_id")
     Behavior behavior;
+
+    @Builder
+    public Completed (Long seconds, Long money, Account account, Behavior behavior) {
+        this.completedTime = LocalDateTime.now();
+        this.seconds = seconds;
+        this.money = money;
+        this.account = account;
+        this.behavior = behavior;
+    }
 }

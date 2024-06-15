@@ -36,10 +36,10 @@ public class Account {
     @Column(nullable = false)
     private String profileImageUrl;
 
-    @OneToOne(mappedBy = "account_id")
+    @OneToOne(mappedBy = "account")
     Progress progress;
 
-    @OneToMany(mappedBy = "account_id")
+    @OneToMany(mappedBy = "account")
     List<Completed> completedList = new ArrayList<>();
 
     @Builder

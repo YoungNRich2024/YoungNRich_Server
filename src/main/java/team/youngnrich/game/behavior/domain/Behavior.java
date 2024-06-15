@@ -22,9 +22,9 @@ public class Behavior {
     @Column(nullable = false)
     private String behaviorName;
 
-    @OneToMany(mappedBy = "behavior_id")
+    @OneToMany(mappedBy = "behavior")
     private List<Progress> progressList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "behavior_id")
+    @OneToMany(mappedBy = "behavior")
     private List<Completed> completedList = new ArrayList<>();
 }
