@@ -31,9 +31,21 @@ public class HighestProfitRecord {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Completed completed;
 
+    @Column(nullable = false)
+    private Long money;
+
+    @Column(nullable = false)
+    private Double earningsRate;
+
+    @Column(nullable = false)
+    private String kakaoId;
+
     @Builder
     public HighestProfitRecord (Account account, Completed completed) {
         this.account = account;
         this.completed = completed;
+        this.money = completed.getMoney();
+        this.earningsRate = money / 100000000.0 * 100;
+        this.kakaoId = account.getKakaoId();
     }
 }

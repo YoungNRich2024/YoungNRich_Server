@@ -4,9 +4,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import team.youngnrich.game.account.domain.Account;
 import team.youngnrich.game.fastestRecord.domain.FastestRecord;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface FastestRecordRepository extends JpaRepository<FastestRecord, Long> {
     Optional<FastestRecord> findByAccount(Account account);
     Boolean existsByAccount(Account account);
+    List<FastestRecord> findAllOrderBySeconds();
 }

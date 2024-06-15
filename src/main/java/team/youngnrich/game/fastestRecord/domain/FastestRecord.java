@@ -30,9 +30,17 @@ public class FastestRecord {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Completed completed;
 
+    @Column(nullable = false)
+    private Long seconds;
+
+    @Column(nullable = false)
+    private String kakaoId;
+
     @Builder
     public FastestRecord (Account account, Completed completed) {
         this.account = account;
         this.completed = completed;
+        this.seconds = completed.getSeconds();
+        this.kakaoId = account.getKakaoId();;
     }
 }
