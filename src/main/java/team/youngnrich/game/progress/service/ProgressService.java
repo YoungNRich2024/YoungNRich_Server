@@ -84,8 +84,16 @@ public class ProgressService {
     }
 
     public String newGame(String kakaoId) {
-        Progress foundProgress = findProgressByKakaoId(kakaoId);
-        progressRepository.save(foundProgress.init());
+        if(existsProgressByKakaoId(kakaoId)) {
+            Progress foundProgress = findProgressByKakaoId(kakaoId);
+            progressRepository.save(foundProgress.init());
+            return "Success";
+        }
+        progressRepository.save(
+                Progress.builder()
+                        .owner(findAccountByKakaoId(kakaoId))
+                        .build()
+        );
         return "Success";
     }
 
@@ -108,5 +116,18 @@ public class ProgressService {
     private Behavior findBehaviorById(Long id) {
         return behaviorRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 투자성향의 ID는 1~5 사이의 정수여야 합니다!"));
+    }
+
+    @Transactional(readOnly = true)
+    private Boolean existsProgressByKakaoId(String kakaoId) {
+        Account owner = accountRepository.findByKakaoId(kakaoId)
+                .orElseThrow(() -> new IllegalArgumentException(NO_ACCOUNT_ERROR_MESSAGE));
+        return progressRepository.existsByAccount(owner);
+    }
+
+    @Transactional(readOnly = true)
+    private Account findAccountByKakaoId(String kakaoId) {
+        return accountRepository.findByKakaoId(kakaoId)
+                .orElseThrow(() -> new IllegalArgumentException(NO_ACCOUNT_ERROR_MESSAGE));
     }
 }

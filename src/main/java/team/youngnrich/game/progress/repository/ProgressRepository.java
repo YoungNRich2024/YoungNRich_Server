@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface ProgressRepository extends JpaRepository<Progress, Long> {
     Optional<Progress> findByAccount(Account account);
+    Boolean existsByAccount(Account account);
 }
