@@ -8,6 +8,9 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import team.youngnrich.game.account.domain.Account;
 import team.youngnrich.game.behavior.domain.Behavior;
+import team.youngnrich.game.fastestRecord.domain.FastestRecord;
+import team.youngnrich.game.highestProfitRecord.domain.HighestProfitRecord;
+import team.youngnrich.game.progress.domain.Progress;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -38,6 +41,12 @@ public class Completed {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="behavior_id")
     Behavior behavior;
+
+    @OneToOne(mappedBy = "completed")
+    FastestRecord fastestRecord;
+
+    @OneToOne(mappedBy = "completed")
+    HighestProfitRecord highestProfitRecord;
 
     @Builder
     public Completed (Long seconds, Long money, Account account, Behavior behavior) {

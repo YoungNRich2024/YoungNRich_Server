@@ -11,6 +11,10 @@ import team.youngnrich.game.completed.dto.request.ClearRequestDto;
 import team.youngnrich.game.completed.dto.response.RecordListResponseDto;
 import team.youngnrich.game.completed.dto.response.RecordResponseDto;
 import team.youngnrich.game.completed.repository.CompletedRepository;
+import team.youngnrich.game.fastestRecord.domain.FastestRecord;
+import team.youngnrich.game.fastestRecord.repository.FastestRecordRepository;
+import team.youngnrich.game.highestProfitRecord.domain.HighestProfitRecord;
+import team.youngnrich.game.highestProfitRecord.repository.HighestProfitRecordRepository;
 import team.youngnrich.game.progress.domain.Progress;
 import team.youngnrich.game.progress.repository.ProgressRepository;
 
@@ -25,9 +29,13 @@ public class CompletedService {
     private final CompletedRepository completedRepository;
     private final ProgressRepository progressRepository;
     private final AccountRepository accountRepository;
+    private final FastestRecordRepository fastestRecordRepository;
+    private final HighestProfitRecordRepository highestProfitRecordRepository;
 
     public String clear(Authentication authentication, ClearRequestDto requestDto) throws AuthenticationException {
-        Progress foundProgress = findProgressByKakaoId(authentication.getName());
+        Account account = accountRepository.findByKakaoId(authentication.getName())
+                .orElseThrow(() -> new EntityNotFoundException("[ERROR] 존재하지 않는 카카오ID입니다!"));
+        Progress foundProgress = findProgressByAccount(account);
         validateOwner(authentication.getName(), foundProgress);
         Completed completed = Completed.builder()
                 .seconds(requestDto.getSeconds())
@@ -35,9 +43,32 @@ public class CompletedService {
                 .account(foundProgress.getAccount())
                 .behavior(foundProgress.getBehavior())
                 .build();
+        // 중간저장 기록 삭제
         progressRepository.delete(foundProgress);
-        completedRepository.save(completed);
-        return null;
+        // 완료기록 생성
+        Completed savedCompleted = completedRepository.save(completed);
+        // 최고기록 갱신
+        if(existsCompletedByAccount(account)) {
+            // 시간 기준 최고기록 갱신
+            FastestRecord fastestRecord = findFastestByAccount(account);
+            if(fastestRecord.getCompleted().getSeconds() > savedCompleted.getSeconds()){
+                fastestRecordRepository.delete(fastestRecord);
+                fastestRecordRepository.save(FastestRecord.builder()
+                        .account(account)
+                        .completed(savedCompleted)
+                        .build());
+            }
+            // 수익률 기준 최고기록 갱신
+            HighestProfitRecord highestProfitRecord = findHighestByAccount(account);
+            if(highestProfitRecord.getCompleted().getMoney() < savedCompleted.getMoney()) {
+                highestProfitRecordRepository.delete(highestProfitRecord);
+                highestProfitRecordRepository.save(HighestProfitRecord.builder()
+                        .account(account)
+                        .completed(savedCompleted)
+                        .build());
+            }
+        }
+        return "Success";
     }
 
     public RecordListResponseDto getMyRecord(Authentication authentication) {
@@ -61,9 +92,7 @@ public class CompletedService {
     }
 
     @Transactional(readOnly = true)
-    private Progress findProgressByKakaoId(String kakaoId)  {
-        Account account = accountRepository.findByKakaoId(kakaoId)
-                .orElseThrow(() -> new EntityNotFoundException("[ERROR] 존재하지 않는 카카오ID입니다!"));
+    private Progress findProgressByAccount(Account account)  {
         return progressRepository.findByAccount(account)
                 .orElseThrow(() -> new EntityNotFoundException("[ERROR] 해당 회원의 중간저장 데이터가 없습니다!"));
     }
@@ -73,5 +102,21 @@ public class CompletedService {
         Account account = accountRepository.findByKakaoId(kakaoId)
                 .orElseThrow(() -> new EntityNotFoundException("[ERROR] 존재하지 않는 카카오ID입니다!"));
         return completedRepository.findAllByAccountOrderByCompletedId(account);
+    }
+
+    @Transactional(readOnly = true)
+    private boolean existsCompletedByAccount(Account account) {
+        return completedRepository.existsByAccount(account);
+    }
+    @Transactional(readOnly = true)
+    private FastestRecord findFastestByAccount(Account account) {
+        return fastestRecordRepository.findByAccount(account)
+                .orElseThrow(() -> new EntityNotFoundException("[ERROR] 최단기록이 존재하지 않습니다!"));
+    }
+
+    @Transactional(readOnly = true)
+    private HighestProfitRecord findHighestByAccount(Account account) {
+        return highestProfitRecordRepository.findByAccount(account)
+                .orElseThrow(() -> new EntityNotFoundException("[ERROR] 최고기록이 존재하지 않습니다!"));
     }
 }

@@ -8,4 +8,7 @@ import java.util.List;
 
 public interface CompletedRepository extends JpaRepository<Completed, Long> {
     List<Completed> findAllByAccountOrderByCompletedId(Account account);
+    List<Completed> findAllOrderBySeconds();
+    List<Completed> findAllOrderByMoneyDesc();
+    Boolean existsByAccount(Account account);
 }

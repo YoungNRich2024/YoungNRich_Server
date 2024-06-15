@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import team.youngnrich.game.completed.domain.Completed;
+import team.youngnrich.game.fastestRecord.domain.FastestRecord;
+import team.youngnrich.game.highestProfitRecord.domain.HighestProfitRecord;
 import team.youngnrich.game.progress.domain.Progress;
 
 import javax.persistence.*;
@@ -41,6 +43,12 @@ public class Account {
 
     @OneToMany(mappedBy = "account")
     List<Completed> completedList = new ArrayList<>();
+
+    @OneToOne(mappedBy = "account")
+    FastestRecord fastestRecord;
+
+    @OneToOne(mappedBy = "account")
+    HighestProfitRecord highestProfitRecord;
 
     @Builder
     public Account(String kakaoId, String nickname, String profileImageUrl) {
