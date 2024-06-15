@@ -5,12 +5,15 @@ import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.youngnrich.game.account.domain.Account;
 import team.youngnrich.game.account.domain.RefreshToken;
+import team.youngnrich.game.account.dto.request.NicknameUpdateRequestDto;
 import team.youngnrich.game.account.dto.request.SignupRequestDto;
+import team.youngnrich.game.account.dto.response.MyDataResponseDto;
 import team.youngnrich.game.account.dto.response.SignupResponseDto;
 import team.youngnrich.game.account.repository.AccountRepository;
 import team.youngnrich.game.oauth.dto.KakaoUserInfoResponseDto;
@@ -96,6 +99,18 @@ public class AccountService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    public MyDataResponseDto getMyData(String kakaoId) {
+        return MyDataResponseDto.builder()
+                .account(findAccountByKakaoId(kakaoId))
+                .build();
+    }
+
+    public void updateNickname(String kakaoId, NicknameUpdateRequestDto requestDto) {
+        Account account = findAccountByKakaoId(kakaoId);
+        account.updateNickname(requestDto.getNickname());
+        accountRepository.save(account);
     }
 
     @Transactional(readOnly = true)
