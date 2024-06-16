@@ -1,4 +1,24 @@
 # 금융 초보자를 위한 교육용 방탈출게임 '영앤리치' 서버
+## 개요
+2024년 1학기 이화여자대학교 도전학기 17기 참가팀 AWS의 프로젝트를 위한 스프링 부트 REST API 서버<br>
+금융경제 지식이 부족한 사회초년생을 위한 방탈출 형식의 싱글 플레이 게임 "영앤리치"
+
+## 개발 진행 기간
+2024.06.12 ~ 2024.06.17
+
+## ERD
+https://www.erdcloud.com/p/Xst64DW9jJFdaZDtp
+![image](https://github.com/YoungNRich2024/YoungNRich_Server/assets/87855493/25fa46b4-db58-468b-857d-4f7863c97a9f)
+
+
+## API 문서
+https://documenter.getpostman.com/view/26477122/2sA3XQi32T
+
+## 사용된 기술
+- Spring Boot
+- JWT
+- OAuth2 카카오로그인
+- OpenAI API
 
 ## 기능 목록
 ### 1. 회원관리 기능
