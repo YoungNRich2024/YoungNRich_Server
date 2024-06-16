@@ -48,7 +48,7 @@ public class CompletedService {
         // 완료기록 생성
         Completed savedCompleted = completedRepository.save(completed);
         // 최고기록 갱신
-        if(existsCompletedByAccount(account)) {
+        if(existsFastestByAccount(account)) {
             // 시간 기준 최고기록 갱신
             FastestRecord fastestRecord = findFastestByAccount(account);
             if(fastestRecord.getCompleted().getSeconds() > savedCompleted.getSeconds()){
@@ -67,7 +67,16 @@ public class CompletedService {
                         .completed(savedCompleted)
                         .build());
             }
+            return "Success";
         }
+        fastestRecordRepository.save(FastestRecord.builder()
+                .account(account)
+                .completed(savedCompleted)
+                .build());
+        highestProfitRecordRepository.save(HighestProfitRecord.builder()
+                .account(account)
+                .completed(savedCompleted)
+                .build());
         return "Success";
     }
 
@@ -118,5 +127,10 @@ public class CompletedService {
     private HighestProfitRecord findHighestByAccount(Account account) {
         return highestProfitRecordRepository.findByAccount(account)
                 .orElseThrow(() -> new EntityNotFoundException("[ERROR] 최고기록이 존재하지 않습니다!"));
+    }
+
+    @Transactional(readOnly = true)
+    private boolean existsFastestByAccount (Account account) {
+        return fastestRecordRepository.existsByAccount(account);
     }
 }

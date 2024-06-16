@@ -27,8 +27,11 @@ public class RankingService {
         List<TimeRankingResponseDto> rankedList = new ArrayList<>();
         TimeRankingResponseDto myRankData = null;
         // 동점을 고려하여 순위 부여
-        rankedList.add(TimeRankingResponseDto.builder().rank(1L).data(recordList.get(0)).build());
+        FastestRecord first = recordList.get(0);
+        rankedList.add(TimeRankingResponseDto.builder().rank(1L).data(first).build());
         Long rank = 1L;
+        if(first.getKakaoId().equals(authentication.getName()))
+            myRankData = TimeRankingResponseDto.builder().rank(rank).data(first).build();
         for(int i=1; i<recordList.size(); i++) {
             rank++;
             FastestRecord thisRecord = recordList.get(i);
@@ -46,9 +49,12 @@ public class RankingService {
         List<HighestProfitRecord> recordList = findAllHighestOrderByMoneyDesc();
         List<MoneyRankingResponseDto> rankedList = new ArrayList<>();
         MoneyRankingResponseDto myRankData = null;
-        // 동점을 고려해고 순위 부여
-        rankedList.add(MoneyRankingResponseDto.builder().rank(1L).data(recordList.get(0)).build());
+        // 동점을 고려하여 순위 부여
+        HighestProfitRecord first = recordList.get(0);
+        rankedList.add(MoneyRankingResponseDto.builder().rank(1L).data(first).build());
         Long rank = 1L;
+        if(first.getKakaoId().equals(authentication.getName()))
+            myRankData = MoneyRankingResponseDto.builder().rank(rank).data(first).build();
         for(int i=1; i<recordList.size(); i++) {
             rank++;
             HighestProfitRecord thisRecord = recordList.get(i);
@@ -64,11 +70,11 @@ public class RankingService {
 
     @Transactional(readOnly = true)
     private List<FastestRecord> findAllFastestOrderByTime() {
-        return fastestRecordRepository.findAllOrderBySeconds();
+        return fastestRecordRepository.findAllByOrderBySeconds();
     }
 
     @Transactional(readOnly = true)
     private List<HighestProfitRecord> findAllHighestOrderByMoneyDesc() {
-        return highestProfitRecordRepository.findAllOrderByMoneyDesc();
+        return highestProfitRecordRepository.findAllByOrderByMoneyDesc();
     }
 }

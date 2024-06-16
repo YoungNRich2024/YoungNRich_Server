@@ -19,7 +19,7 @@ public class RecordResponseDto {
         this.completedTime = completed.getCompletedTime();
         this.seconds = completed.getSeconds();
         this.money = completed.getMoney();
-        this.earningsRate = this.money / 100000000.0;
+        this.earningsRate = this.money / 100000000.0 * 100;
         this.behaviorName = completed.getBehavior().getBehaviorName();
     }
 }

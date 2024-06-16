@@ -47,7 +47,8 @@ public class ProgressService {
 
     public String puzzleSolved(String kakaoId, PuzzleSolvedRequestDto requestDto) {
         Progress foundProgress = findProgressByKakaoId(kakaoId);
-        switch (requestDto.getPuzzleNumber()) {
+        if(requestDto.getNumber()==null) throw new IllegalArgumentException("[ERROR] 퍼즐 번호가 null입니다!");
+        switch (requestDto.getNumber().intValue()) {
             case 1: foundProgress.setPuzzleOne(true);
                 break;
             case 2: foundProgress.setPuzzleTwo(true);

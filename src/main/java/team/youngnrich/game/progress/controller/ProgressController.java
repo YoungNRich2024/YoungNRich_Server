@@ -28,7 +28,7 @@ public class ProgressController {
     }
 
     @PostMapping("/puzzle")
-    public ResponseEntity<String> puzzleSolved (Authentication authentication, PuzzleSolvedRequestDto requestDto) {
+    public ResponseEntity<String> puzzleSolved (Authentication authentication, @RequestBody PuzzleSolvedRequestDto requestDto) {
         return ResponseEntity.ok().body(progressService.puzzleSolved(authentication.getName(), requestDto));
     }
 
@@ -53,7 +53,7 @@ public class ProgressController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<String> save (Authentication authentication, SaveRequestDto requestDto) {
+    public ResponseEntity<String> save (Authentication authentication, @RequestBody SaveRequestDto requestDto) {
         return ResponseEntity.ok().body(progressService.save(authentication.getName(), requestDto));
     }
 }
