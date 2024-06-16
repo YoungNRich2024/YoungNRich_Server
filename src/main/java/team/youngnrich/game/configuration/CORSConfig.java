@@ -13,7 +13,7 @@ public class CORSConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("");    // 클라이언트 퍼블리싱 링크
+        config.addAllowedOrigin("https://young-n-rich.vercel.app/");
         config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
