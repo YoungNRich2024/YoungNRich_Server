@@ -12,9 +12,4 @@ import javax.validation.constraints.NotNull;
 public class SignupRequestDto {
     @NotNull
     private String code;
-
-    @Builder
-    public SignupRequestDto (String code) {
-        this.code = code;
-    }
 }

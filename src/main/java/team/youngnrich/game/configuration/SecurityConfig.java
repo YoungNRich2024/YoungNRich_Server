@@ -26,7 +26,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/accounts/signup", "/accounts/refreshtoken").permitAll()    // 로그인은 무조건 허용
+                .antMatchers("/accounts/signup", "/accounts/refreshtoken", "/behavior").permitAll()    // 로그인, 초기데이터삽입은 무조건 허용
                 .antMatchers(HttpMethod.POST, "/accounts/**").authenticated() // 모든 POST 요청과, /members/로 시작하는 다른 URI의 모든 요청은 인증 요구
                 .and()
                 .sessionManagement()

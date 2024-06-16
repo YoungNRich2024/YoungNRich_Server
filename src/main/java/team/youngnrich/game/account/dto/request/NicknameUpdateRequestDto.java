@@ -12,9 +12,4 @@ import javax.validation.constraints.NotNull;
 public class NicknameUpdateRequestDto {
     @NotNull
     private String nickname;
-
-    @Builder
-    public NicknameUpdateRequestDto (String nickname) {
-        this.nickname = nickname;
-    }
 }

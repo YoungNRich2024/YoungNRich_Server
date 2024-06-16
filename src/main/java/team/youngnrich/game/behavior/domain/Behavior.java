@@ -1,6 +1,7 @@
 package team.youngnrich.game.behavior.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import team.youngnrich.game.completed.domain.Completed;
@@ -27,4 +28,10 @@ public class Behavior {
 
     @OneToMany(mappedBy = "behavior")
     private List<Completed> completedList = new ArrayList<>();
+
+    @Builder
+    public Behavior (Long behaviorId, String behaviorName) {
+        this.behaviorId = behaviorId;
+        this.behaviorName = behaviorName;
+    }
 }
