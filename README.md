@@ -14,7 +14,7 @@ https://www.erdcloud.com/p/Xst64DW9jJFdaZDtp
 ## API 문서
 https://documenter.getpostman.com/view/26477122/2sA3XQi32T
 
-## 사용된 기술
+## 사용된 주요 기술
 - Spring Boot
 - JWT
 - OAuth2 카카오로그인
