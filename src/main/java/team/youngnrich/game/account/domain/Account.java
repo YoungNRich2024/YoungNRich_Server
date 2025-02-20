@@ -7,9 +7,10 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import team.youngnrich.game.completed.domain.Completed;
-import team.youngnrich.game.fastestRecord.domain.FastestRecord;
-import team.youngnrich.game.highestProfitRecord.domain.HighestProfitRecord;
+import team.youngnrich.game.richBankrupt.domain.RichBankrupt;
+import team.youngnrich.game.richCompleted.domain.RichCompleted;
+import team.youngnrich.game.richHighest.domain.RichHighest;
+import team.youngnrich.game.youngCompleted.domain.YoungCompleted;
 import team.youngnrich.game.progress.domain.Progress;
 
 import javax.persistence.*;
@@ -42,13 +43,16 @@ public class Account {
     Progress progress;
 
     @OneToMany(mappedBy = "account")
-    List<Completed> completedList = new ArrayList<>();
+    List<YoungCompleted> youngCompletedList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "account")
+    List<RichCompleted> richCompletedList = new ArrayList<>();
 
     @OneToOne(mappedBy = "account")
-    FastestRecord fastestRecord;
+    RichHighest richHighest;
 
     @OneToOne(mappedBy = "account")
-    HighestProfitRecord highestProfitRecord;
+    RichBankrupt richBankrupt;
 
     @Builder
     public Account(String kakaoId, String nickname, String profileImageUrl) {

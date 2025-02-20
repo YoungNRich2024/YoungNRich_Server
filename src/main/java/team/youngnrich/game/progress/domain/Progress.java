@@ -1,17 +1,15 @@
 package team.youngnrich.game.progress.domain;
 
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import team.youngnrich.game.account.domain.Account;
-import team.youngnrich.game.behavior.domain.Behavior;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-@Setter
+@Setter // 게임 진행에 따라 중간저장 내역이 업데이트될 때마다 Setter로 각 필드 수정
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Progress {
     @Id
@@ -32,12 +30,6 @@ public class Progress {
     private boolean puzzleFour;
 
     @Column(nullable = false)
-    private boolean testComplete;
-
-    @Column(nullable = false)
-    private Long seconds;
-
-    @Column(nullable = false)
     private boolean keyObtained;
 
     @Column(nullable = false)
@@ -46,12 +38,9 @@ public class Progress {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    Account account;
+    private Account account;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="behavior_id")
-    Behavior behavior;
-
+    // 진행률 제로인 새 중간저장 데이터를 만드는 빌더
     @Builder
     public Progress (Account owner) {
         this.account = owner;
@@ -59,12 +48,11 @@ public class Progress {
         this.puzzleTwo = false;
         this.puzzleThree = false;
         this.puzzleFour = false;
-        this.testComplete = false;
-        this.seconds = 0L;
         this.keyObtained = false;
         this.keyUsed = false;
     }
 
+    // 중간저장 기록이 존재하는 유저가 새 게임을 시작했을 때 중간저장을 초기화하는 함수
     public Progress init () {
         Progress newProgress = Progress.builder()
                 .owner(this.account)
